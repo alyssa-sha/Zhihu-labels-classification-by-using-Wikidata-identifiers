@@ -1,1 +1,1 @@
-# Zhihu-labels-classification-by-using-Wikidate-identifiers
+# Zhihu-labels-classification-by-using-Wikidata-identifiers
