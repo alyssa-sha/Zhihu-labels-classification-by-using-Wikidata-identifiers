@@ -6,16 +6,14 @@ import wandb as wandb
 
 import pandas as pd
 
-data=pd.read_excel("zhihu-gpt3.xlsx",usecols="B")
-openai.api_key = "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"
+#data=pd.read (the prepared data that is ready for classification)
+openai.api_key = "" #openai API
 prediction_table = wandb.Table(columns=["prompt", "completion"])
 for kw in data["itemLabel"][:20]:
   gpt_prompt="Classify this keyword to a category."+"\n\nKeyword:"+kw+"\nCategory:"
   response = openai.Completion.create(
     model="text-davinci-003",
-    # model ="ada:ft-personal-2022-11-29-12-37-22",
-    # model="davinci:ft-personal-2022-11-29-12-52-01", #training data with noise -->,/n, etc
-    # model="davinci:ft-personal-2022-11-29-13-02-17",
+    # swap model selection after fine-tuning
     prompt=gpt_prompt,
     temperature=0,
     max_tokens=64,
@@ -26,4 +24,4 @@ for kw in data["itemLabel"][:20]:
   print(len(prediction_table.data))
   prediction_table.add_data(kw,response['choices'][0]['text'])
   if len(prediction_table.data)%30==0:
-    time.sleep(60)
+    time.sleep(60) #set up the sleep interval to avoid a rate limit error
